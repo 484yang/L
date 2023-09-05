@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Integer
 from linebot.models import *
-from models.database import Base, db_session
+from database import Base, db_session
 from urllib.parse import quote
 
 class Products(Base):

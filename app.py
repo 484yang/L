@@ -11,12 +11,13 @@ from linebot.models import(
 )
 from linebot.models import *
 from models.cart import Cart
-from models.database import db_session
+from database import db_session
 from models.user import Users
-
+from models.order import Orders
+from models.item import Items
 from models.product import Products
 from sqlalchemy.sql.expression import text
-from models.database import db_session, init_db
+from database import db_session, init_db
 
 
 app = Flask(__name__)
