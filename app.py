@@ -51,10 +51,10 @@ def about_us_event(event):
             }
         ]
 
-    text_message = TextSendMessage(text='''$ Master RenderP $
-Hello! 您好，歡迎您成為 Master RenderP 的好友！
+    text_message = TextSendMessage(text='''$ 仙女美甲 可愛每一天 $
+Hello! 您好，歡迎您成為 仙女美甲 的好友！
 
-我是Master 支付小幫手 
+我是仙女 支付小幫手 
 
 -這裡有商城，還可以購物喔~
 -直接點選下方【圖中】選單功能
@@ -111,24 +111,24 @@ def handle_message(event):
             cart.add(product=product_name, num=num_item)
 
             confirm_template = ConfirmTemplate(
-                text= 'Sure, {} {}, anything else?'.format(num_item, product_name),
+                text= '是, {} {}, 還要別的嗎?'.format(num_item, product_name),
                 actions=[
-                    MessageAction(label='Add', text='add'),
-                    MessageAction(label="That's it", text="That's it")
+                    MessageAction(label='加購', text='加購'),
+                    MessageAction(label="結帳", text="結帳")
                 ])
             
-            message = TemplateSendMessage(alt_text='anything else?', template=confirm_template)
+            message = TemplateSendMessage(alt_text='還要別的嗎?', template=confirm_template)
 
         else:
-            message = TextSendMessage(text="Sorry, We don't have {}.".format(product_name))
+            message = TextSendMessage(text="抱歉，我們沒有 {}.".format(product_name))
 
         print(cart.bucket())
-    elif message_text in ['my cart', 'cart', "that's it"]:
+    elif message_text in ['測量甲片(含膠)', '測量甲片(含膠)', "結帳"]:
 
         if cart.bucket():
             message = cart.display()
         else:
-            message = TextSendMessage(text='Your cart is empty now.')
+            message = TextSendMessage(text='您的購物車現在是空的.')
     if message:
         line_bot_api.reply_message(
         event.reply_token, 
@@ -147,7 +147,7 @@ def handle_postback(event):
         cart = Cart(user_id=user_id)#透過user_id取得購物車
 
         if not cart.bucket():#判斷購物車裡面有沒有資料，沒有就回傳購物車是空的
-            message = TextSendMessage(text='Your cart is empty now.')
+            message = TextSendMessage(text='傳購物車是空的.')
 
             line_bot_api.reply_message(event.reply_token, [message])
 
@@ -198,9 +198,9 @@ def handle_postback(event):
         db_session.commit()
         #最後告知用戶並提醒付款
         message = TemplateSendMessage(
-            alt_text='Thank you, please go ahead to the payment.',
+            alt_text='T謝謝，請先付款.',
             template=ButtonsTemplate(
-                text='Thank you, please go ahead to the payment.',
+                text='謝謝，請先付款.',
                 actions=[
                     URIAction(label='Pay NT${}'.format(order.amount),
                               uri=pay_web_url)
@@ -233,18 +233,18 @@ def init_products():
     # init db
     result = init_db()#先判斷資料庫有沒有建立，如果還沒建立就會進行下面的動作初始化產品
     if result:
-        init_data = [Products(name='Coffee',
-                              product_image_url='https://i.imgur.com/DKzbk3l.jpg',
-                              price=150,
-                              description='nascetur ridiculus mus. Donec quam felis, ultricies'),
-                     Products(name='Tea',
-                              product_image_url='https://i.imgur.com/PRTxyhq.jpg',
-                              price=120,
-                              description='adipiscing elit. Aenean commodo ligula eget dolor'),
-                     Products(name='Cake',
-                              price=180,
-                              product_image_url='https://i.imgur.com/PRm22i8.jpg',
-                              description='Aenean massa. Cum sociis natoque penatibus')]
+        init_data = [Products(name='單色(確定造型訂金)',
+                              product_image_url='https://i.imgur.com/nnjQ5WO.jpg',
+                              price=350,
+                              description='此為訂金完成請補足差額'),
+                     Products(name='多色(確定造型訂金)',
+                              product_image_url='https://i.imgur.com/q4ghU32.jpg',
+                              price=850,
+                              description='此為訂金完成請補足差額'),
+                     Products(name='測量甲片(含膠)',
+                              price=50,
+                              product_image_url='https://i.imgur.com/WFbeSGf.jpg',
+                              description='空白甲片量測大小使用')]
         db_session.bulk_save_objects(init_data)#透過這個方法一次儲存list中的產品
         db_session.commit()#最後commit()才會存進資料庫
         #記得要from models.product import Products在app.py
