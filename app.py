@@ -51,7 +51,7 @@ def about_us_event(event):
             }
         ]
 
-    text_message = TextSendMessage(text=''' 仙女美甲 可愛每一天 
+    text_message = TextSendMessage(text='''$ Master RenderP $ 
 Hello! 您好，歡迎您成為 仙女美甲 的好友！
 
 我是仙女 支付小幫手 

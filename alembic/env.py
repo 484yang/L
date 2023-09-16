@@ -4,7 +4,6 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 import os
 import sys
-sys.path.append(os.getcwd())
 from alembic import context
 
 # this is the Alembic Config object, which provides
